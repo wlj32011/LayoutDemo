@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -48,6 +49,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+//        recyclerView.addItemDecoration();
+
 
         dataList = initData();
 
@@ -77,6 +80,19 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 recyclerViewAdapter.notifyItemRemoved(3);
             }
         });
+
+
+
+        //取状态值
+        if(savedInstanceState != null){
+            String testStr = savedInstanceState.getString("string");
+            int testInt = savedInstanceState.getInt("int");
+
+            Log.d("RecyclerViewActivity", testStr);
+
+            Log.d("RecyclerViewActivity", "testInt:" + testInt);
+        }
+
 
     }
 
@@ -114,5 +130,44 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 
         return list;
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d("RecyclerViewActivity", "onSaveInstanceState");
+        outState.putString("string","测试");
+        outState.putInt("int",3);
+        super.onSaveInstanceState(outState);
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        //保存状态到本地
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //恢复状态从本地数据
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        //取状态值
+        if(savedInstanceState != null){
+            String testStr = savedInstanceState.getString("string");
+            int testInt = savedInstanceState.getInt("int");
+
+            Log.d("onRestoreInstanceState", testStr);
+
+            Log.d("onRestoreInstanceState", "testInt:" + testInt);
+        }
     }
 }
